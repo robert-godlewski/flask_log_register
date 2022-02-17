@@ -14,9 +14,6 @@
 </head>
 <body>
     <h1>Welcome {{user.full_name()}}!</h1>
-    <form action="/logout" method="post">
-        <input type="hidden" name="id" value={{user.id}}>
-        <input type="submit" value="Logout">
-    </form>
+    <a href="/logout">Logout</a>
 </body>
 </html>

@@ -15,7 +15,7 @@
 <body>
     <form action="/user/register" method="post">
         <h1>Register</h1>
-        {% with messages = get_flashed_messages() %}
+        {% with messages = get_flashed_messages(category_filter=['register']) %}
             {% if messages %}
                 {% for message in messages %}
                     <p>{{message}}</p>
@@ -46,7 +46,7 @@
     </form>
     <form action="/login" method="post">
         <h1>Login</h1>
-        {% with messages = get_flashed_messages() %}
+        {% with messages = get_flashed_messages(category_filter=['login']) %}
             {% if messages %}
                 {% for message in messages %}
                     <p>{{message}}</p>

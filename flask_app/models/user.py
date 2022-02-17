@@ -20,14 +20,12 @@ class User:
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
 
-    def full_name(self):
-        return self.first_name + " " + self.last_name
+    def full_name(self): return self.first_name + " " + self.last_name
 
-    # Need to replace db with a database name as a string
     @classmethod
     def save(cls, data):
         query = '''
-        INSERT INTO dojos 
+        INSERT INTO users 
         ( first_name, last_name, email, password, login, 
         created_at, updated_at )
         VALUES ( %(first_name)s, %(last_name)s, %(email)s,
@@ -35,15 +33,13 @@ class User:
         '''
         return connectToMySQL(user_db).query_db(query, data)
 
-    # Need to replace db with a database name as a string
     @classmethod
     def get_one(cls, data):
         query = "SELECT * FROM users WHERE id = %(id)s;"
         result = connectToMySQL(user_db).query_db(query, data)
+        # print(result)
         return cls(result[0])
 
-    # Need to find an email to see if it's in the database
-    # Need to replace db with a database name as a string
     @classmethod
     def get_by_email(cls, data):
         query = "SELECT * FROM users WHERE email = %(email)s;"
@@ -54,6 +50,7 @@ class User:
     @staticmethod
     def validate_user(user):
         is_valid = True
+        print(user)
         if len(user['first_name']) < 2:
             flash("First name must be at least 2 characters.")
             is_valid = False
@@ -63,7 +60,7 @@ class User:
         if not EMAIL_REGEX.match(user['email']):
             flash("Invalid email address!")
             is_valid = False
-        elif User.get_by_email(user['email']) is not False:
+        elif User.get_by_email(user) is not False:
             flash("There's already a user please login instead.")
             is_valid = False
         if len(user['password']) < 8:
